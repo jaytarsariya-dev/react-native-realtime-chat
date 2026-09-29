@@ -1,79 +1,240 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# React Native Real-Time Chat App
 
-# Getting Started
+A real-time one-to-one messaging mobile application built with **React Native** and **Firebase Firestore**, featuring Google Sign-In, real-time messaging, typing indicators, read receipts, online/offline presence, and profile management.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Screenshots
 
-## Step 1: Start the Metro Server
+| Login                           | Chat List                               |
+| ------------------------------- | --------------------------------------- |
+| ![Login](screenshots/login.jpg) | ![Chat List](screenshots/chat-list.jpg) |
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+| Chat Screen                                 | Settings                              |
+| ------------------------------------------- | ------------------------------------- |
+| ![Chat Screen](screenshots/chat-screen.jpg) | ![Settings](screenshots/settings.jpg) |
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## Features
+
+* Google Sign-In authentication
+* One-to-one real-time messaging
+* Firebase Firestore integration
+* Real-time message updates
+* Message timestamps
+* Read/unread message status
+* Unread message badges
+* Typing indicators
+* Online/offline presence
+* Last seen status
+* Local user search
+* User profile management
+* Profile image upload using Firebase Storage
+* About Me profile information
+* Bottom tab navigation
+* Loading states
+* Android support
+
+## Tech Stack
+
+* **React Native** – Mobile application development
+* **JavaScript** – Application logic
+* **Firebase Authentication** – User authentication
+* **Firebase Firestore** – Real-time chat and user data
+* **Firebase Storage** – Profile image storage
+* **Google Sign-In** – Authentication
+* **React Navigation** – Application navigation
+* **React Native Image Picker** – Profile image selection
+
+## Application Flow
+
+```text
+App Launch
+    ↓
+Firebase Authentication Check
+    ↓
+Google Sign-In
+    ↓
+Chat Application
+    ↓
+Chat List
+    ↓
+Select User
+    ↓
+One-to-One Chat
+    ↓
+Real-Time Messages
+    ↓
+Typing / Read Status / Online Presence
+```
+
+## Firebase Architecture
+
+The application uses Firebase for authentication, real-time communication, user information, and profile images.
+
+### Users
+
+```text
+users
+ └── uid
+      ├── displayName
+      ├── email
+      ├── photoURL
+      ├── aboutMe
+      ├── isOnline
+      └── lastSeen
+```
+
+### Chats
+
+```text
+chats
+ └── uid1_uid2
+      ├── messages
+      │    └── messageId
+      │         ├── text
+      │         ├── senderId
+      │         ├── receiverId
+      │         ├── isRead
+      │         ├── timestamp
+      │         └── time
+      │
+      └── typingStatus
+           └── userId
+                └── isTyping
+```
+
+The application uses Firestore realtime listeners to update messages, unread counts, typing status, and online presence.
+
+## Project Structure
+
+```text
+ChatApp/
+├── android/
+├── ios/
+├── src/
+│   ├── assets/
+│   └── ChatApp.js
+├── App.js
+├── index.js
+├── package.json
+├── babel.config.js
+├── .env.example
+├── .gitignore
+└── README.md
+```
+
+## Environment Configuration
+
+The Google Sign-In web client ID is loaded through an environment variable instead of being hardcoded in the source code.
+
+Create a `.env` file based on `.env.example`:
+
+```env
+GOOGLE_WEB_CLIENT_ID=your_google_web_client_id
+```
+
+**Do not commit `.env` to GitHub.**
+
+The real Firebase configuration files are also excluded from the repository.
+
+For Android, provide your own:
+
+```text
+android/app/google-services.json
+```
+
+For iOS, provide your own:
+
+```text
+ios/GoogleService-Info.plist
+```
+
+## Getting Started
+
+### 1. Clone the repository
 
 ```bash
-# using npm
+git clone https://github.com/jaytarsariya-dev/react-native-realtime-chat.git
+```
+
+### 2. Navigate to the project
+
+```bash
+cd react-native-realtime-chat
+```
+
+### 3. Install dependencies
+
+```bash
+npm install
+```
+
+### 4. Configure Firebase
+
+Create your own Firebase project and enable:
+
+* Firebase Authentication
+* Google Sign-In
+* Cloud Firestore
+* Firebase Storage
+
+Add your Android Firebase configuration:
+
+```text
+android/app/google-services.json
+```
+
+Create your `.env` file using `.env.example` and configure:
+
+```env
+GOOGLE_WEB_CLIENT_ID=your_google_web_client_id
+```
+
+### 5. Start Metro
+
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
+### 6. Run Android
 
 ```bash
-# using npm
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### For iOS
+For iOS, configure the required Firebase iOS configuration and CocoaPods dependencies before running the application.
 
-```bash
-# using npm
-npm run ios
+## Security
 
-# OR using Yarn
-yarn ios
-```
+This repository does not include:
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+* Firebase configuration files
+* Environment files containing real values
+* Hardcoded Google Sign-In client configuration
+* Private credentials
+* API secrets
+* Debug keystores
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+Developers should provide their own Firebase configuration and environment variables when running the application locally.
 
-## Step 3: Modifying your App
+## Future Improvements
 
-Now that you have successfully run the app, let's modify it.
+Potential improvements for future versions include:
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+* Push notifications
+* Image and file messaging
+* Message editing and deletion
+* Group conversations
+* Reply functionality
+* Improved application architecture by separating screens and services
+* Additional profile customization
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+## Developer
 
-## Congratulations! :tada:
+**Jay Tarsariya**
 
-You've successfully run and modified your React Native App. :partying_face:
+React Native Developer
 
-### Now what?
+GitHub: [jaytarsariya-dev](https://github.com/jaytarsariya-dev)
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+## License
 
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+This project is available for learning and portfolio purposes.
